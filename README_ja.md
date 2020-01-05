@@ -27,6 +27,20 @@ npm run build
 実行
 -----
 
+* example1ではjavascriptのコンソールに `hello world` と出力される
+* example2ではアラートダイアログが出て `hello world!!!` と出力される
+
+### 方法1: webpack-dev-serverをつかう
+
+```
+npm run dev
+```
+
+Webブラウザが起動してページが表示される
+
+
+### 方法2: webサーバを立てる
+
 1. HTTPサーバを起動しこのファイルがあるディレクトリをWebブラウザで閲覧できるようにする。
 
 ```
@@ -34,8 +48,6 @@ python3 -m http.server
 ```
 
 2. Webブラウザでindex.htmlを閲覧する <http://localhost:8000>
-    * example1ではjavascriptのコンソールに `hello world` と出力される
-    * example2ではアラートダイアログが出て `hello world!!!` と出力される
 
 詳細
 ----

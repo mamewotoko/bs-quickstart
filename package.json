@@ -7,15 +7,16 @@
         "clean": "bsb -clean-world",
         "build": "bsb -make-world && mkdir -p js && browserify -r ./src/main.bs.js:main > js/main.js",
         "watch": "bsb -make-world -w",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "dev": "webpack-dev-server --open"
     },
     "author": "Takashi Masuyama <mamewotoko@gmail.com>",
-    "license": "ISC",
+    "license": "Apache-2.0",
     "dependencies": {
         "browserify": "^16.5.0",
         "bs-platform": "^5.2.1",
         "bs-webapi": "^0.15.6",
-        "duplexer": "^0.1.1",
-        "through": "^2.3.8"
+        "webpack": "^4.28.1",
+        "webpack-cli": "^3.2.1",
+        "webpack-dev-server": "^3.1.14"
     }
 }
