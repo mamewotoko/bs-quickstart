@@ -36,7 +36,7 @@ python3 -m http.server
 
 詳細
 ----
-* browserify のオプションでbrowserifyで出力したjavascriptの関数を呼べるようにする [参考: external source maps](https://github.com/browserify/browserify#external-source-maps)
+* browserify のオプションでbrowserifyで出力したjavascriptの関数を呼べるようにする [参考: external requires](https://github.com/browserify/browserify#external-requires)
 
 キーワード
 ---------
