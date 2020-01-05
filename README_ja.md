@@ -3,9 +3,8 @@ Webブラウザから呼ぶBucklescriptの例
 
 概要
 ----
-Bucklescript (ocaml) でJavaScriptのライブラリを作成。HTMLのscriptタグからライブラリの関数を呼ぶ。
-
-
+Bucklescript (ocaml) でJavaScriptのライブラリを作成(`js/main.js`)。
+HTMLのscriptタグからそのライブラリの関数を呼ぶ(`index.html`)。 という例。
 
 インストール
 -----------
