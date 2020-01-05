@@ -6,6 +6,10 @@ Webブラウザから呼ぶBucklescriptの例
 Bucklescript (ocaml) でJavaScriptのライブラリを作成(`js/main.js`)。
 HTMLのscriptタグからそのライブラリの関数を呼ぶ(`index.html`)。 という例。
 
+前提
+----
+npm がインストールされていること
+
 インストール
 -----------
 
@@ -35,11 +39,12 @@ python3 -m http.server
 
 詳細
 ----
-* browserify のオプションでbrowserifyで出力したjavascriptの関数を呼べるようにする [参考: external requires](https://github.com/browserify/browserify#external-requires)
+* browserify の `-r` オプションでbrowserifyで出力したjavascriptの関数を呼べるようにする [参考: external requires](https://github.com/browserify/browserify#external-requires)
+  * [package.json](package.json) で指定している
 
 キーワード
 ---------
-bucklescript, bs-webapi, ocaml, broserify, through, duplexer, commonjs
+bucklescript, bs-webapi, ocaml, browserify, commonjs
 
 -----
 Takashi Masuyama < mamewotoko@gmail.com >  
