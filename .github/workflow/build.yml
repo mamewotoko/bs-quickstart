@@ -1,0 +1,28 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: build javascript
+      run: |
+        npm i
+        npm run build
+    - name: generate documents
+      run: |
+        npm run doc
+    - name: collect artifact
+      run: |
+        mkdir result
+        cp -r index.html js doc result
+    - name: Archive code coverage results
+      uses: actions/upload-artifact@v1
+      with:
+        name: output
+        path: result
+
