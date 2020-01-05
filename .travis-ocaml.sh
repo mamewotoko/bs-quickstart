@@ -1,4 +1,3 @@
-#! /bin/sh
 ## basic OCaml and opam installation
 
 full_apt_version () {
@@ -23,8 +22,10 @@ SYS_OCAML_VERSION=4.02
 OPAM_VERSION=${OPAM_VERSION:-2}
 OPAM_INIT=${OPAM_INIT:-true}
 
+OPAM_LATEST_RELEASE=2.0.5
+
 case $OPAM_VERSION in
-    2|2.0) OPAM_VERSION=2.0.1;;
+    2|2.0) OPAM_VERSION=$OPAM_LATEST_RELEASE;;
 esac
 
 if [ "$TRAVIS_OS_NAME" = "osx" ] ; then
@@ -37,6 +38,13 @@ if [ "$TRAVIS_OS_NAME" = "osx" ] ; then
         set -x
     fi
     OPAM_VERSION="$BREW_OPAM_VERSION"
+fi
+
+if [ "$OPAM_VERSION" != "$OPAM_LATEST_RELEASE" ] ; then
+    set +x
+    echo -e "[\e[0;31mWARNING\e[0m] Out-of-date opam $OPAM_VERSION requested" >&2
+    echo -e "[\e[0;31mWARNING\e[0m] Latest release is $OPAM_LATEST_RELEASE" >&2
+    set -x
 fi
 
 if [ "${INSTALL_LOCAL+x}" = x ] ; then
@@ -89,21 +97,23 @@ apt_install () {
             APT_UPDATED=1
             sudo apt-get update -qq
         fi
-        sudo apt-get install -y "$@"
+        sudo apt-get install --no-install-recommends -y "$@"
     fi
 }
 
 install_ocaml () {
     apt_install \
          ocaml ocaml-base ocaml-native-compilers ocaml-compiler-libs \
-         ocaml-interp ocaml-base-nox ocaml-nox \
-         camlp4 camlp4-extra
+         ocaml-interp ocaml-base-nox ocaml-nox
 }
 
 install_opam2 () {
     case $TRAVIS_OS_NAME in
         linux)
-            add_ppa ansible/bubblewrap
+            case $TRAVIS_DIST in
+                precise|trusty|xenial)
+                    add_ppa ansible/bubblewrap ;;
+            esac
             if [ "${INSTALL_LOCAL:=0}" = 0 ] ; then
                 install_ocaml
             fi
@@ -114,7 +124,7 @@ install_opam2 () {
             if [ "${INSTALL_LOCAL:=0}" = 0 ] ; then
                 brew install ocaml
             fi
-            sudo curl -sL https://github.com/ocaml/opam/releases/download/$OPAM_VERSION/opam-$OPAM_VERSION-x86_64-darwin -o /usr/local/bin/opam
+            sudo curl -fsSL https://github.com/ocaml/opam/releases/download/$OPAM_VERSION/opam-$OPAM_VERSION-x86_64-macos -o /usr/local/bin/opam
             sudo chmod +x /usr/local/bin/opam ;;
     esac
 }
@@ -122,6 +132,8 @@ install_opam2 () {
 install_ppa () {
   add_ppa $1
   if [ "${INSTALL_LOCAL:=0}" = 0 ] ; then
+    sudo apt-get -qq update
+    APT_UPDATED=1
     apt_install \
        "$(full_apt_version ocaml $SYS_OCAML_VERSION)" \
        "$(full_apt_version ocaml-base $SYS_OCAML_VERSION)" \
@@ -129,9 +141,7 @@ install_ppa () {
        "$(full_apt_version ocaml-compiler-libs $SYS_OCAML_VERSION)" \
        "$(full_apt_version ocaml-interp $SYS_OCAML_VERSION)" \
        "$(full_apt_version ocaml-base-nox $SYS_OCAML_VERSION)" \
-       "$(full_apt_version ocaml-nox $SYS_OCAML_VERSION)" \
-       "$(full_apt_version camlp4 $SYS_OCAML_VERSION)" \
-       "$(full_apt_version camlp4-extra $SYS_OCAML_VERSION)"
+       "$(full_apt_version ocaml-nox $SYS_OCAML_VERSION)"
   fi
   apt_install opam
 }
@@ -205,9 +215,21 @@ install_on_linux () {
     4.07,2*)
         OCAML_FULL_VERSION=4.07.1
         install_opam2 ;;
+    4.08,1.2.2)
+        OCAML_FULL_VERSION=4.08.1
+        install_ppa avsm/ocaml42+opam12 ;;
+    4.08,2*)
+        OCAML_FULL_VERSION=4.08.1
+        install_opam2 ;;
+    4.09,1.2.2)
+        OCAML_FULL_VERSION=4.09.0
+        install_ppa avsm/ocaml42+opam12 ;;
+    4.09,2*)
+        OCAML_FULL_VERSION=4.09.0
+        install_opam2 ;;
     *) echo "Unknown OCAML_VERSION=$OCAML_VERSION OPAM_VERSION=$OPAM_VERSION"
        echo "(An unset OCAML_VERSION used to default to \"latest\", but you must now specify it."
-       echo "Try something like \"OCAML_VERSION=3.12\", \"OCAML_VERSION=4.07\", or see README-travis.md at https://github.com/ocaml/ocaml-ci-scripts )"
+       echo "Try something like \"OCAML_VERSION=3.12\", \"OCAML_VERSION=4.09\", or see README-travis.md at https://github.com/ocaml/ocaml-ci-scripts )"
        exit 1 ;;
   esac
 
@@ -252,7 +274,6 @@ install_on_osx () {
         sudo installer -verbose -pkg /Volumes/XQuartz-2.7.6/XQuartz.pkg -target /
         ;;
   esac
-  brew upgrade python || true
   case "$OCAML_VERSION,$OPAM_VERSION" in
     3.12,1.2.2) OCAML_FULL_VERSION=3.12.1; brew install opam ;;
     3.12,2*) OCAML_FULL_VERSION=3.12.1; install_opam2 ;;
@@ -270,14 +291,18 @@ install_on_osx () {
     4.05,2*) OCAML_FULL_VERSION=4.05.0; install_opam2 ;;
     4.06,1.2.2) OCAML_FULL_VERSION=4.06.1; brew install opam ;;
     4.06,2*) OCAML_FULL_VERSION=4.06.1; install_opam2 ;;
-    4.07,1.2.2) OCAML_FULL_VERSION=4.07.1;
+    4.07,1.2.2) OCAML_FULL_VERSION=4.07.1; brew install opam ;;
+    4.07,2*) OCAML_FULL_VERSION=4.07.1; install_opam2 ;;
+    4.08,1.2.2) OCAML_FULL_VERSION=4.08.1;
                 OPAM_SWITCH=${OPAM_SWITCH:-system};
                 brew install ocaml;
                 brew install opam ;;
-    4.07,2*) OCAML_FULL_VERSION=4.07.1;
+    4.08,2*) OCAML_FULL_VERSION=4.08.1;
                 OPAM_SWITCH=${OPAM_SWITCH:-ocaml-system};
                 brew install ocaml;
                 install_opam2 ;;
+    4.09,1.2.2) OCAML_FULL_VERSION=4.09.0; brew install opam ;;
+    4.09,2*) OCAML_FULL_VERSION=4.09.0; install_opam2 ;;
     *) echo "Unknown OCAML_VERSION=$OCAML_VERSION OPAM_VERSION=$OPAM_VERSION"
        exit 1 ;;
   esac
