@@ -1,5 +1,5 @@
-Webブラウザから呼ぶBucklescriptの例
-===================================
+Webブラウザから呼ぶBucklescriptの例 (commonjs)
+===========================================
 
 概要
 ----
@@ -41,6 +41,7 @@ python3 -m http.server
 ----
 * browserify の `-r` オプションでbrowserifyで出力したjavascriptの関数を呼べるようにする [参考: external requires](https://github.com/browserify/browserify#external-requires)
   * [package.json](package.json) で指定している
+* [es6](https://github.com/mamewotoko/bs-quickstart/tree/feature/es6)
 
 キーワード
 ---------
