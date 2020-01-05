@@ -2,14 +2,14 @@
 let hello () =
   Js.log "hello world"
 
-(* example2 *)
+(* example2: displays alert dialog. Webapi sample *)
 open Webapi
 let visible_hello () =
   Dom.Window.alert "hello world!!!" Dom.window
 
-(* example3 *)
-let hello_again () =
+(* example3: add elmement [message] will be appended to text.*)
+let hello_again message =
   match Dom.document |> Dom.Document.getElementById "maindiv" with
     None -> raise Not_found
   | Some e ->
-     e |> Dom.Element.asNode |. Dom.Node.setTextContent "Hello in div"
+     e |> Dom.Element.asNode |. Dom.Node.setTextContent ("Hello in div " ^ message)

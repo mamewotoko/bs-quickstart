@@ -3,12 +3,14 @@ Webブラウザから呼ぶBucklescriptの例 (commonjs)
 
 概要
 ----
-Bucklescript (ocaml) でJavaScriptのライブラリを作成(`js/main.js`)。
+
+BuckleScript (ocaml) でJavaScriptのライブラリを作成(`js/main.js`)。
 HTMLのscriptタグからそのライブラリの関数を呼ぶ(`index.html`)。 という例。
 
 前提
 ----
-npm がインストールされていること
+
+npm がインストールされていること。
 
 インストール
 -----------
@@ -27,8 +29,8 @@ npm run build
 実行
 -----
 
-* example1ではjavascriptのコンソールに `hello world` と出力される
-* example2ではアラートダイアログが出て `hello world!!!` と出力される
+* example1ではjavascriptのコンソールに `hello world` と出力される。
+* example2ではアラートダイアログが出て `hello world!!!` と出力される。
 
 ### 方法1: webpack-dev-serverをつかう
 
@@ -36,7 +38,7 @@ npm run build
 npm run dev
 ```
 
-Webブラウザが起動してページが表示される
+Webブラウザが起動してページが表示される。
 
 
 ### 方法2: webサーバを立てる
@@ -48,6 +50,19 @@ python3 -m http.server
 ```
 
 2. Webブラウザでindex.htmlを閲覧する <http://localhost:8000>
+
+ドキュメント生成
+--------------
+
+`src/main.mli` からOcamlのモジュールとしてのドキュメントを作成する。ドキュメントの作成には
+[`ocamldoc`](https://caml.inria.fr/pub/docs/manual-ocaml/ocamldoc.html) を使用する。
+
+
+```
+npm run doc
+```
+
+[`doc/index.html`](doc/index.html) にドキュメントができる。
 
 詳細
 ----
