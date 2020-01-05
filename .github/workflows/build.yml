@@ -12,7 +12,7 @@ jobs:
     - name: install libs
       run: |
         npm i
-        bash -x ../../.travis-ocaml.sh
+        bash -x .travis-ocaml.sh
         opam switch create 4.02.3+buckle-master
     - name: build javascript
       run: |
