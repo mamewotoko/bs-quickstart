@@ -14,6 +14,9 @@ jobs:
         npm i
         bash -x .travis-ocaml.sh
         opam switch create 4.02.3+buckle-master
+      env:
+        OCAML_VERSION: 4.07
+        TRAVIS_OS_NAME: linux
     - name: build javascript
       run: |
         npm i
