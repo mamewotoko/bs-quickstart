@@ -64,6 +64,22 @@ npm run doc
 
 [`doc/index.html`](doc/index.html) にドキュメントができる。
 
+
+omerlin: エディタでの補完、ドキュメント参照
+---------------------------------------
+
+```
+opam install merlin
+```
+
+Emacsの場合
+
+キー|コマンド|備考
+-----|--------------|--------------
+C-c C-d|merlin-destruct|場合分け
+C-c C-l|merlin-locate|ソースを表示
+C-c i|merlin-document|ocamldocのコメントを表示
+
 詳細
 ----
 * browserify の `-r` オプションでbrowserifyで出力したjavascriptの関数を呼べるようにする [参考: external requires](https://github.com/browserify/browserify#external-requires)
