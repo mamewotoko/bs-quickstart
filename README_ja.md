@@ -51,6 +51,11 @@ python3 -m http.server
 
 2. Webブラウザでindex.htmlを閲覧する <http://localhost:8000>
 
+ファイル構造
+----------
+
+* `src/main.ml` がサンプルのソースコード。
+
 ドキュメント生成
 --------------
 
