@@ -13,9 +13,10 @@
     "author": "Takashi Masuyama <mamewotoko@gmail.com>",
     "license": "Apache-2.0",
     "dependencies": {
-        "browserify": "^16.5.1",
-        "bs-platform": "^5.2.1",
-        "bs-webapi": "^0.15.9",
-        "webpack-dev-server": "^3.10.3"
+        "browserify": "^17.0.0",
+        "bs-platform": "^9.0.2",
+        "bs-webapi": "^0.19.1",
+        "webpack-cli": "^4.6.0",
+        "webpack-dev-server": "^3.11.2"
     }
 }
